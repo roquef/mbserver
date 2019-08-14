@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-'use strict';
-
 const express = require('express');
 const app = express();
 const MBTiles = require('@mapbox/mbtiles');
@@ -58,7 +55,7 @@ module.exports = {
   listen: function (config, onListen) {
     const format = config.tiles._info.format;
 
-    app.get('/', (req, res) => {
+    app.get('/preview', (req, res) => {
       if (format === 'pbf') {
         res.render('vector', config);
       } else {
