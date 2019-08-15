@@ -4,7 +4,9 @@ const MBTiles = require('@mapbox/mbtiles');
 const q = require('d3-queue').queue();
 const utils = require('./utils');
 const objectAssign = require('object-assign');
+const cors = require('cors');
 
+app.use(cors());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
