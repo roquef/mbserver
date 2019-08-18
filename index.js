@@ -7,7 +7,7 @@ class MBServer {
             port: 3000,
             data_path: 'public',
             preview: {
-                basemap: 'dark',
+                basemap: 'mapbox://styles/roquefsd/cjzhb3q4c2x0p1cpdymohva94',
                 center: [0, 0],
                 zoom: 0
             }
