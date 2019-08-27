@@ -59,7 +59,7 @@ center = [center[0], center[1]];
 mapboxgl.accessToken = '<%= accessToken %>';
 var map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/mapbox/<%= basemap %>-v9',
+  style: '<%= basemap %>',
   center: center,
   zoom: <%= zoom %>,
   hash: true,
