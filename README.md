@@ -1,10 +1,7 @@
 [![Build Status](https://travis-ci.org/mapbox/mbview.svg?branch=master)](https://travis-ci.org/mapbox/mbview)
 
 # mbview
-
 Serve MBTiles via REST using Express
-
-![demo](https://raw.githubusercontent.com/mapbox/mbview/master/demo.gif)
 
 ## quick start
 Put your mbtiles in the public folder, then:
