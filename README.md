@@ -7,6 +7,8 @@ Serve MBTiles via REST using Express
 ![demo](https://raw.githubusercontent.com/mapbox/mbview/master/demo.gif)
 
 ## quick start
+Put your mbtiles in public folder, then:
+
 ```javascript
 const MBServer = require('mbserver');
 const server = new MBServer({
