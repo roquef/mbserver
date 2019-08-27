@@ -6,9 +6,12 @@ Serve MBTiles via REST using Express
 
 ![demo](https://raw.githubusercontent.com/mapbox/mbview/master/demo.gif)
 
-```bash
-% npm install
-% export MAPBOX_ACCESS_TOKEN='pk.0000.1111' # replace value with your mapbox public access token
-% node cli.js --port 9000 ~/roads.mbtiles ~/taco-places.mbtiles
+## quick start
+```javascript
+const MBServer = require('mbserver');
+const server = new MBServer({
+    access_token: 'MAPBOX-TOKEN'
+});
+server.init();
 ```
 You can obtain a mapbox public token by signing up [here](https://www.mapbox.com/signup/).
