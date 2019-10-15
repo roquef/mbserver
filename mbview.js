@@ -67,7 +67,7 @@ module.exports = {
 			const tiles = config.sources[p.source].tiles;
 			tiles.getTile(p.z, p.x, p.y, (err, tile, headers) => {
 				if (err) {
-					res.end();
+					res.status(204).send({ error: err });
 				} else {
 					res.writeHead(200, headers);
 					res.end(tile);
@@ -81,7 +81,7 @@ module.exports = {
 			const tiles = config.sources[p.source].tiles;
 			tiles.getTile(p.z, p.x, p.y, (err, tile, headers) => {
 				if (err) {
-					res.end();
+					res.status(204).send({ error: err });
 				} else {
 					res.writeHead(200, headers);
 					res.end(tile);
