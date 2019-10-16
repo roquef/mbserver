@@ -82,6 +82,6 @@ class MBServer {
 }
 
 const server = new MBServer({
-    access_token: 'pk.eyJ1Ijoicm9xdWVmc2QiLCJhIjoiY2lucnIwZHJnMTBsZnR0bTM3M2U0dWhvciJ9.1yHRa7IYt3hoFU-gHwrXnQ'
+    access_token: process.argv[2]
 });
 server.init();
