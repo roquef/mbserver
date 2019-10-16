@@ -16,6 +16,20 @@ function shouldCompress(req, res) {
 	return compression.filter(req, res)
 }
 
+function onTile(req, res) {
+	const p = req.params;
+	const tiles = global.config.sources[p.source].tiles;
+
+	tiles.getTile(p.z, p.x, p.y, (err, tile, headers) => {
+		if (err) {
+			res.status(204).send({ error: err });
+		} else {
+			res.writeHead(200, headers);
+			res.end(tile);
+		}
+	});
+}
+
 module.exports = {
 	/**
 	 * Load a tileset and return a reference with metadata
@@ -60,25 +74,11 @@ module.exports = {
 
 	listen: function (config, onListen) {
 		global.config = config;
-		app.get('/:source/:z/:x/:y.pbf', this.onTile);
-		app.get('/:source/:z/:x/:y.png', this.onTile);
+		app.get('/:source/:z/:x/:y.pbf', onTile);
+		app.get('/:source/:z/:x/:y.png', onTile);
 
 		config.server = app.listen(config.port, () => {
 			onListen(null, config);
-		});
-	},
-
-	onTile: (req, res) => {
-		const p = req.params;
-		const tiles = global.config.sources[p.source].tiles;
-
-		tiles.getTile(p.z, p.x, p.y, (err, tile, headers) => {
-			if (err) {
-				res.status(204).send({ error: err });
-			} else {
-				res.writeHead(200, headers);
-				res.end(tile);
-			}
 		});
 	}
 };
