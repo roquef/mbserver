@@ -60,8 +60,8 @@ module.exports = {
 
 	listen: function (config, onListen) {
 		global.config = config;
-		app.get('/:source/:z/:x/:y.pbf', onTile);
-		app.get('/:source/:z/:x/:y.png', onTile);
+		app.get('/:source/:z/:x/:y.pbf', this.onTile);
+		app.get('/:source/:z/:x/:y.png', this.onTile);
 
 		config.server = app.listen(config.port, () => {
 			onListen(null, config);
