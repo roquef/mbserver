@@ -6,9 +6,12 @@ const utils = require('./utils');
 const objectAssign = require('object-assign');
 const cors = require('cors');
 const compression = require('compression');
+const apicache = require('apicache');
+const cache = apicache.middleware
 app.use(cors());
 app.use(express.static('public'));
-app.use(compression({ filter: shouldCompress }))
+app.use(compression({ filter: shouldCompress }));
+
 function shouldCompress(req, res) {
 	if (req.headers['x-no-compression']) {
 		return false
@@ -74,8 +77,8 @@ module.exports = {
 
 	listen: function (config, onListen) {
 		global.config = config;
-		app.get('/:source/:z/:x/:y.pbf', onTile);
-		app.get('/:source/:z/:x/:y.png', onTile);
+		app.get('/:source/:z/:x/:y.pbf', cache('5 minutes'), onTile);
+		app.get('/:source/:z/:x/:y.png', cache('5 minutes'), onTile);
 
 		config.server = app.listen(config.port, () => {
 			onListen(null, config);
