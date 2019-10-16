@@ -5,14 +5,18 @@ const q = require('d3-queue').queue();
 const utils = require('./utils');
 const objectAssign = require('object-assign');
 const cors = require('cors');
-
+const compression = require('compression');
 app.use(cors());
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use(compression({ filter: shouldCompress }))
+function shouldCompress(req, res) {
+	if (req.headers['x-no-compression']) {
+		return false
+	}
+	return compression.filter(req, res)
+}
 
 module.exports = {
-
 	/**
 	 * Load a tileset and return a reference with metadata
 	 * @param {object} file reference to the tileset
@@ -55,42 +59,26 @@ module.exports = {
 	},
 
 	listen: function (config, onListen) {
-		const format = config.tiles._info.format;
-
-		app.get('/preview', (req, res) => {
-			res.render('vector', config);
-		});
-
-		app.get('/:source/:z/:x/:y.pbf', (req, res) => {
-			const p = req.params;
-
-			const tiles = config.sources[p.source].tiles;
-			tiles.getTile(p.z, p.x, p.y, (err, tile, headers) => {
-				if (err) {
-					res.status(204).send({ error: err });
-				} else {
-					res.writeHead(200, headers);
-					res.end(tile);
-				}
-			});
-		});
-
-		app.get('/:source/:z/:x/:y.png', (req, res) => {
-			const p = req.params;
-
-			const tiles = config.sources[p.source].tiles;
-			tiles.getTile(p.z, p.x, p.y, (err, tile, headers) => {
-				if (err) {
-					res.status(204).send({ error: err });
-				} else {
-					res.writeHead(200, headers);
-					res.end(tile);
-				}
-			});
-		});
+		global.config = config;
+		app.get('/:source/:z/:x/:y.pbf', onTile);
+		app.get('/:source/:z/:x/:y.png', onTile);
 
 		config.server = app.listen(config.port, () => {
 			onListen(null, config);
+		});
+	},
+
+	onTile: (req, res) => {
+		const p = req.params;
+		const tiles = global.config.sources[p.source].tiles;
+
+		tiles.getTile(p.z, p.x, p.y, (err, tile, headers) => {
+			if (err) {
+				res.status(204).send({ error: err });
+			} else {
+				res.writeHead(200, headers);
+				res.end(tile);
+			}
 		});
 	}
 };
