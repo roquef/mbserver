@@ -8,9 +8,7 @@ Put your mbtiles in the public folder, then:
 
 ```javascript
 const MBServer = require('mbserver');
-const server = new MBServer({
-    access_token: 'MAPBOX-TOKEN'
-});
+const server = new MBServer();
 server.init();
 ```
 You can obtain a mapbox public token by signing up [here](https://www.mapbox.com/signup/).
